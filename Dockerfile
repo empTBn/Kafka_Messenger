@@ -2,10 +2,10 @@
 FROM python:3.11
 
 # Variables de entorno para la base de datos MongoDB
-ENV DB_HOST_MONGO=mongo
+ENV DB_HOST_MONGO=localhost
 ENV DB_PORT_MONGO=27017
 ENV DB_USER_MONGO=root
-ENV DB_PASSWORD_MONGO=password
+ENV DB_PASSWORD_MONGO=example
 
 # Establece el directorio de trabajo en /opt/app
 WORKDIR /opt/app
