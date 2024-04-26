@@ -1,16 +1,15 @@
 # app.py
-from app_service import AppService
+from Controller import Controller
 
 
 def main():
-    # Configurar los parámetros de conexión a MongoDB y Kafka
     mongo_uri = "mongodb://localhost:27017/"
     db_name = "MensajesDB"
     collection_name = "topics"
     kafka_bootstrap_servers = "localhost:9092"
 
     # Inicializar el servicio de la aplicación
-    app_service = AppService(
+    app_service = Controller(
         mongo_uri, db_name, collection_name, kafka_bootstrap_servers
     )
 

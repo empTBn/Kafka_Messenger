@@ -11,12 +11,6 @@ services:
     volumes:
       - ./mongo-init-scripts:/docker-entrypoint-initdb.d
 
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8081:8081
-
   zookeeper:
     image: wurstmeister/zookeeper
     ports:

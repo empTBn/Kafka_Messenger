@@ -1,15 +1,22 @@
-// init-mongo.js
-
+// script para inicializar la base de datos con algiu
 // Conectarse a la base de datos
 var db = db.getSiblingDB("MensajesDB");
 
 // Crear la colección "topics" si no existe
-db.topics.createIndex({ id_topic: 1 }, { unique: true });
+db.topics.createIndex({ topic: '' }, { unique: true });
 
-// Insertar la encuesta en la colección "topics"
+/* Insertar la encuesta en la colección "topics"
+
+--NOTA: esto es un ejemplo de como se veria la estructura de la base de datos
+  si se pudiera elegir un canal ya existente, que por el problema de que khafka-python
+  de no recibir el topic desde un atributo de la clase controller no podemos hacerlo, o sea, 
+  no deja guardar un 'current topic' para que todos los mensaje se escriban y lean sobre ese topic 
+  seleccionado.
+
+
+
 db.topics.insertMany([
   {
-    id_topic: "1",
     topic: "Canal 1",
     mensajes: [
       {
@@ -25,7 +32,6 @@ db.topics.insertMany([
     ],
   },
   {
-    id_topic: "2",
     topic: "canal 2",
     mensajes: [
       {
@@ -41,3 +47,5 @@ db.topics.insertMany([
     ],
   },
 ]);
+
+  */
