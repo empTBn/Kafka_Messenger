@@ -60,7 +60,8 @@ class AppService:
 
     def write_message(self):
         topic = input("Ingrese el nombre del topic: ")
-        message = input("Ingrese el mensaje: ")
+        inputMessage = input("Ingrese el mensaje: ")
+        message = (f"{self.username}: \n" + "  - " + inputMessage)
         print("tipo de topic", type(topic))
         print(topic)
         self.kafka_service.produce_message(topic, message)
@@ -76,6 +77,7 @@ class AppService:
     def read_messages(self):
         topic = input("Ingrese el nombre del topic: ")
         messages = self.kafka_service.consume_messages(topic)
-        print(f"\nMensajes en el tópico '{self.current_topic}':")
+        print(f"\nMensajes en el tópico '{topic}':")
         for message in messages:
-            print(f"- {message}")
+            print(f"{message.value}" + f"\n         (timestamp: {message.timestamp})")
+        print("# Fin de la conversacion xd #")

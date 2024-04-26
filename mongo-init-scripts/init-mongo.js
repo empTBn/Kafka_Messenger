@@ -10,7 +10,7 @@ db.topics.createIndex({ id_topic: 1 }, { unique: true });
 db.topics.insertMany([
   {
     id_topic: "1",
-    topic: "Canal 1",
+    topic: "Canal_1",
     mensajes: [
       {
         timestamp: "",
@@ -26,7 +26,7 @@ db.topics.insertMany([
   },
   {
     id_topic: "2",
-    topic: "canal 2",
+    topic: "Canal_2",
     mensajes: [
       {
         timestamp: "",
