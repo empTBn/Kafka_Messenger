@@ -14,12 +14,13 @@ class Controller:
 
     def run_console_interface(self):
         self.username = input("Ingrese su nombre de usuario: ")
+        print(f"\nBienvenido, {self.username}!\n")
         self.select_topic()
         while True:
             print("\nSeleccione una opción:")
             print("1. Escribir mensaje")
             print("2. Leer mensajes")
-            print("3. Cambiar de topic")
+            print("3. Cambiar de canal/topic")
             print("4. Salir")
 
             opcion = input("Ingrese el número de la opción deseada: ")
@@ -37,27 +38,28 @@ class Controller:
                 print("Opción no válida. Inténtelo de nuevo.")
 
     def select_topic(self):
-        # Obtener todos los topics disponibles en la base de datos
         topics = self.mongo_service.get_all_topics()
-        print(topics)
+
+        # Mostrar los topics numerados al usuario
         print("Topics disponibles:")
-        for topic in topics:
-            print(topic)
-
-        # Pedir al usuario que ingrese el nombre del topic
-        topic = input("Ingrese el nombre del topic: ")
-
-        # Verificar si el topic ingresado está en la lista de topics disponibles
-        if topic not in topics:
-            print("Error: El topic ingresado no existe.")
-            return
+        for i, topic in enumerate(topics, 1):
+            print(f"{i}. {topic}")
+        while True:
+            try:
+                selected_index = int(input("Ingrese el número del topic deseado: "))
+                if 1 <= selected_index <= len(topics):
+                    break
+                else:
+                    print("Error: Seleccione un número válido.")
+            except ValueError:
+                print("Error: Ingrese un número válido.")
 
         # Asignar el topic seleccionado como el topic actual
-        self.current_topic = topic
-        print(f"Topic seleccionado: {topic}")
+        self.current_topic = topics[selected_index - 1]
+        print(f"Topic seleccionado: {self.current_topic}")
 
     def write_message(self):
-        topic = input("Ingrese el nombre del topic: ")
+        topic = self.current_topic
         input_mesg = input("Ingrese el mensaje: ")
 
         # Construir el mensaje en formato JSON
@@ -73,7 +75,7 @@ class Controller:
         print("Mensaje enviado con éxito.")
 
     def read_messages(self):
-        topic = input("Ingrese el nombre del topic: ")
+        topic = self.current_topic
         print(f"\nMensajes en el tópico '{topic}':")
 
         consumer = self.kafka_service.consume_messages(topic)
@@ -94,6 +96,5 @@ class Controller:
                     )
                 except json.JSONDecodeError:
                     print("Error: El mensaje no está en formato JSON")
-        except KeyboardInterrupt:
-            consumer.close()
-            print("Lectura de mensajes interrumpida.")
+        finally:
+            return

@@ -23,10 +23,5 @@ class MongoDBService:
         )
 
     def get_all_topics(self):
-        # Obtener todos los documentos de la colección "topics"
-        cursor = self.collection.find({}, {"topic": 1, "_id": 0})
-
-        # Extraer los nombres de los topics de los documentos
-        topics = [doc["topic"] for doc in cursor]
-
+        topics = self.collection.distinct("topic")
         return topics
