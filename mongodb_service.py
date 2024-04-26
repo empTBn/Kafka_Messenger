@@ -7,8 +7,23 @@ class MongoDBService:
         self.db = self.client[db_name]
         self.collection = self.db[collection_name]
 
-    def insert_message(self, message):
-        self.collection.insert_one(message)
+    def insert_message(self, message, current_topic):
+        # Encuentra el documento que corresponde al current_topic
+        topic_document = self.collection.find_one({"topic": current_topic})
 
-    def get_messages_by_topic(self, topic):
-        return self.collection.find({"topic": topic})
+        # Si no se encuentra el documento, crea uno nuevo
+        if topic_document is None:
+            topic_document = {"topic": current_topic, "mensajes": []}
+
+        # Añade el mensaje a la lista de mensajes del topic
+        topic_document["mensajes"].append(message)
+
+        # Actualiza o inserta el documento en la colección
+        self.collection.update_one(
+            {"topic": current_topic}, {"$set": topic_document}, upsert=True
+        )
+
+    def get_all_topics(self):
+        # Utiliza distinct() para obtener los distintos valores de la clave "topic"
+        topics = self.collection.distinct("topic")
+        return topics

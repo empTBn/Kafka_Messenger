@@ -5,8 +5,8 @@ from app_service import AppService
 def main():
     # Configurar los parámetros de conexión a MongoDB y Kafka
     mongo_uri = "mongodb://localhost:27017/"
-    db_name = "mensajes"
-    collection_name = "mensajes"
+    db_name = "MensajesDB"
+    collection_name = "topics"
     kafka_bootstrap_servers = "localhost:9092"
 
     # Inicializar el servicio de la aplicación
