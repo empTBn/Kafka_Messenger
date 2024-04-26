@@ -23,6 +23,10 @@ class MongoDBService:
         )
 
     def get_all_topics(self):
-        # Utiliza distinct() para obtener los distintos valores de la clave "topic"
-        topics = self.collection.distinct("topic")
+        # Obtener todos los documentos de la colección "topics"
+        cursor = self.collection.find({}, {"topic": 1, "_id": 0})
+
+        # Extraer los nombres de los topics de los documentos
+        topics = [doc["topic"] for doc in cursor]
+
         return topics
