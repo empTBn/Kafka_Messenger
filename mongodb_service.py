@@ -8,7 +8,6 @@ class MongoDBService:
         self.collection = self.db[collection_name]
 
     def insert_message(self, message, current_topic):
-        # Encuentra el documento que corresponde al current_topic
         topic_document = self.collection.find_one({"topic": current_topic})
 
         # Si no se encuentra el documento, crea uno nuevo
@@ -24,6 +23,5 @@ class MongoDBService:
         )
 
     def get_all_topics(self):
-        # Utiliza distinct() para obtener los distintos valores de la clave "topic"
         topics = self.collection.distinct("topic")
         return topics
